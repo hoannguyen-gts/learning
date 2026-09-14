@@ -11,6 +11,19 @@ async function loadTasks() {
     render(); 
 }
 
+function formatDateTime(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+}
+
+
 /**
  * Enable/Disable submit button (rely on Input)
  * Submit is disable when input dialog is blank
@@ -45,7 +58,8 @@ async function render() {
 
         const taskTimeEl = document.createElement('span');
         taskTimeEl.className = 'task-time';
-        taskTimeEl.textContent = task.created_at;
+        const present = new Date(task.created_at)
+        taskTimeEl.textContent = formatDateTime(present)
 
         contentWrapper.appendChild(taskTextEl);
         contentWrapper.appendChild(taskTimeEl);
@@ -135,7 +149,7 @@ async function toggleTask(id) {
 
     // Gửi thay đổi lên server
     const response = await fetch(`/todos/${id}`, { 
-        method: 'PATCH', 
+        method: 'PATCH', // PUT
         headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify({ completed: newCompleted }) 
         }
