@@ -3,61 +3,42 @@ const pool = require('./db');
 class TodoRepository {
 
     // Lấy tất cả todo
-    async findAll() {
+    async findAll(userId) {
         const query = `
             SELECT id, title, completed, created_at
             FROM todos
+            WHERE user_id = $1
             ORDER BY created_at DESC;
         `;
 
-        const result = await pool.query(query);
+        const result = await pool.query(query, [userId]);
 
         return result.rows;
     }
 
-
-    // Tìm một todo theo id
-    async findById(id) {
-        const query = `
-            SELECT id, title, completed, created_at
-            FROM todos
-            WHERE id = $1;
-        `;
-
-        const result = await pool.query(query, [id]);
-
-        // Không tìm thấy
-        if (result.rows.length === 0) {
-            return null;
-        }
-
-        return result.rows[0];
-    }
-
-
     // Tạo todo
-    async create(title) {
+    async create(title, userId) {
         const query = `
-            INSERT INTO todos (title, completed)
-            VALUES ($1, $2)
+            INSERT INTO todos (title, completed, user_id)
+            VALUES ($1, $2, $3)
             RETURNING id, title, completed, created_at;
         `;
 
-        const result = await pool.query(query, [title, false]);
+        const result = await pool.query(query, [title, false, userId]);
 
         return result.rows[0];
     }
 
 
-    async update(id, completed) {
+    async update(id, completed, userId) {
         const query = `
             UPDATE todos
             SET completed = $1
-            WHERE id = $2
+            WHERE id = $2 AND user_id = $3
             RETURNING id, title, completed, created_at;
         `;
 
-        const result = await pool.query(query, [completed, id]);
+        const result = await pool.query(query, [completed, id, userId]);
         return result.rows[0];
     }
 
