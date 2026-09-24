@@ -1,15 +1,15 @@
 const pool = require('./db');
 
 class UserRepository {
-    async findByUserNname(indentifier) {
+    async findByUsername(username) {
         const query = `
         SELECT id, username, password_hash
         FROM users
-        WHERE username = $1 
+        WHERE username = $1
         ;       
         `
-        const result = await pool.query(query, [indentifier]);
-        return result.rows || null;
+        const result = await pool.query(query, [username]);
+        return result.rows[0] || null;
     }
 
     async findById(id) {
@@ -20,19 +20,30 @@ class UserRepository {
         ;       
         `
         const result = await pool.query(query, [id]);
-        return result.rows || null;
+        return result.rows[0] || null;
     }
 
     async create(username, passwordHash) {
         const query = `
         INSERT INTO users (username, password_hash)
-        VALUE ($1, $2, $3)
-        RETURNING id, username, email
+        VALUES ($1, $2)
+        RETURNING id, username
         ;       
         `
-        const result = await pool.query(query, [username, email, passwordHash]);
-        return result.rows || null;
+        const result = await pool.query(query, [username, passwordHash]);
+        return result.rows[0] || null;
     }
+
+    async delete(id) {
+        const query = `
+        DELETE FROM users
+        WHERE id = $1 
+        ;       
+        `
+        const result = await pool.query(query, [id]);
+        return result.rowCount > 0;
+    }
+
 }
 
 module.exports = new UserRepository();

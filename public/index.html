@@ -1,39 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>ToDoList App</title>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>ToDoList App</title>
+</head>
+<body>
 
-  <body>
-    <main class="todo-container">
-      <header class="todo-header">
-          <h1>TODOS</h1>
-      </header>
+  <!--LOGIN -->
+  <main id="login-view" class="auth-container">
+    <div class="auth-header-actions">
+      <button id="go-to-signup-btn" class="nav-switch-btn">Sign up</button>
+    </div>
+    <div class="auth-card">
+      <h1 class="auth-title">ToDoList App</h1>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-username">Username:</label>
+          <input type="text" id="login-username" placeholder="Enter username..." autocomplete="off" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password:</label>
+          <input type="password" id="login-password" placeholder="Enter password..." required>
+        </div>
+        <button type="submit" class="auth-primary-btn">Login</button>
+      </form>
+    </div>
+  </main>
 
-      <section class = "todo-input-section">
-        <form id = "todo-form">
-          <input
-            type="text"
-            id="task-input"
-            placeholder="Enter your task..."
-            autocomplete="off"
-          >
-          <button type="submit" id="submit-btn" disabled>Submit</button>
-        </form>
-      </section>
+  <!-- SIGN UP -->
+  <main id="signup-view" class="auth-container hidden">
+    <div class="auth-header-actions">
+      <button id="go-to-login-btn" class="nav-switch-btn">Log in</button>
+    </div>
+    <div class="auth-card">
+      <h1 class="auth-title">ToDoList App</h1>
+      <form id="signup-form">
+        <div class="form-group">
+          <label for="signup-username">Username:</label>
+          <input type="text" id="signup-username" placeholder="Enter username..." autocomplete="off" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-password">Password:</label>
+          <input type="password" id="signup-password" placeholder="Enter password..." required>
+        </div>
+        <div class="form-group">
+          <label for="signup-confirm-password">Confirm Password:</label>
+          <input type="password" id="signup-confirm-password" placeholder="Enter password..." required>
+        </div>
+        <button type="submit" class="auth-primary-btn">Sign up</button>
+      </form>
+    </div>
+  </main>
 
-      <section class="todo-list-section">
-            <ul id="task-list">
-                <!-- Every <li> elements here 'll be dynamically rendered from JS array -->
-            </ul>
-        </section>
+  <!-- TODO LIST -->
+  <main id="todo-view" class="todo-container hidden">
+    <header class="todo-header">
+      <h1>TODOS</h1>
+      <!-- User information & Logout button -->
+      <div class="user-info-section">
+        <span id="user-display">User: <strong id="username-text">--</strong></span>
+        <button id="logout-btn" class="logout-btn">Log out</button>
+      </div>
+    </header>
 
-    </main>
+    <section class="todo-input-section">
+      <form id="todo-form">
+        <input type="text" id="task-input" placeholder="Enter your task..." autocomplete="off">
+        <button type="submit" id="submit-btn" disabled>Submit</button>
+      </form>
+    </section>
 
-    <script src="app.js"></script>
-  </body>
+    <section class="todo-list-section">
+      <ul id="task-list"></ul>
+    </section>
+  </main>
 
+  <script src="app.js"></script>
+</body>
 </html>

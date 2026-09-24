@@ -44,13 +44,13 @@ class TodoRepository {
 
 
     // Xóa todo
-    async delete(id) {
+    async delete(id, userId) {
         const query = `
             DELETE FROM todos
-            WHERE id = $1;
+            WHERE id = $1 AND user_id = $2;
         `;
 
-        const result = await pool.query(query, [id]);
+        const result = await pool.query(query, [id, userId]);
 
         return result.rowCount > 0;
     }
