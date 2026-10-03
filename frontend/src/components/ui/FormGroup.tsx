@@ -1,29 +1,18 @@
 import type { ReactNode } from 'react';
-import Button from '../ui/Button';
 
-interface AuthLayoutProps {
-  switchLabel: string;
-  onSwitch: () => void;
+interface FormGroupProps {
+  label: string;
+  htmlFor: string;
   children: ReactNode;
 }
 
-export default function AuthLayout({
-  switchLabel,
-  onSwitch,
-  children,
-}: AuthLayoutProps) {
+export default function FormGroup({ label, htmlFor, children }: FormGroupProps) {
   return (
-    <main className="w-full max-w-[700px] mx-auto my-10 bg-white border-[3px] border-black px-10 pt-5 pb-[50px]">
-      <div className="flex justify-end mb-5">
-        <Button variant="nav" onClick={onSwitch}>
-          {switchLabel}
-        </Button>
-      </div>
-      <h1 className="text-center text-[2.2rem] font-bold mb-[30px]">
-        ToDoList App
-      </h1>
-
+    <div className="flex items-center mb-5">
+      <label htmlFor={htmlFor} className="w-[180px] shrink-0 text-[1.2rem] font-bold">
+        {label}
+      </label>
       {children}
-    </main>
+    </div>
   );
 }
