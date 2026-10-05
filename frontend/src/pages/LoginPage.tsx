@@ -19,7 +19,7 @@ export default function LoginPage({ onNavigate }: LoginPageProps) {
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const id = identifier.trim();
@@ -44,11 +44,10 @@ export default function LoginPage({ onNavigate }: LoginPageProps) {
         return;
       }
 
-      // app.js:148-152
+      // Đổi: chỉ truyền access_token vào hàm login
       const ok = data as AuthResponse;
-      login(ok.access_token, ok.user); 
-      onNavigate('todo');    
- 
+      login(ok.access_token);
+      onNavigate('todo');
     } catch (error) {
       console.error('Login error:', error);
       alert('Không thể kết nối đến máy chủ. Vui lòng kiểm tra mạng!');

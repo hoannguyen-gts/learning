@@ -24,7 +24,7 @@ export default function TodoPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // ── GET /todos — bản dịch của loadTasks (app.js:202-220)
+  // ── GET /todos
   const loadTasks = useCallback(async (): Promise<void> => {
     setIsLoading(true);
     setError(null);
@@ -34,7 +34,7 @@ export default function TodoPage() {
     } catch (err) {
       console.error('loadTasks error:', err);
       if (!isHandledAuthError(err)) {
-        setTasks([]);                      // app.js:216
+        setTasks([]);                     
         setError(getErrorMessage(err));
       }
     } finally {
@@ -52,7 +52,7 @@ export default function TodoPage() {
       try {
         const created = await apiFetch<Todo>('/todos', {
           method: 'POST',
-          body: JSON.stringify({ title }),      // app.js:300
+          body: JSON.stringify({ title }), 
         });
         // task mới lên ĐẦU danh sách
         setTasks(prev => [created, ...prev]);

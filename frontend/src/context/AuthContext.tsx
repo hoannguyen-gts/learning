@@ -6,33 +6,27 @@ import { getStoredToken, getStoredUser, saveSession, clearSession } from '../lib
 interface AuthContextValue {
   user: User | null;
   token: string | null;
-  /** Legacy: isAuthenticated() — app.js:36 */
   isAuthenticated: boolean;
-  /** Legacy: app.js:148-150 */
-  login: (token: string, user: User) => void;
-  /** Legacy: logout() — app.js:102-111 */
+  login: (token: string) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-
-  const [user, setUser] = useState<User | null>(() => getStoredUser());
   const [token, setToken] = useState<string | null>(() => getStoredToken());
 
+  const user = token ? getStoredUser() : null;
   const isAuthenticated = Boolean(token) && Boolean(user);
 
-  const login = useCallback((newToken: string, newUser: User) => {
-    saveSession(newToken, newUser); 
-    setToken(newToken);               
-    setUser(newUser);
+  const login = useCallback((newToken: string) => {
+    saveSession(newToken);
+    setToken(newToken);
   }, []);
 
   const logout = useCallback(() => {
     clearSession();
     setToken(null);
-    setUser(null);
   }, []);
 
   return (

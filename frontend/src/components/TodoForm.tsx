@@ -13,7 +13,7 @@ export default function TodoForm({ onSubmit }: TodoFormProps) {
   // Derived: thay thế handleInputValidation() + 5 lần gọi nó =)))
   const isEmpty = title.trim() === '';
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const text = title.trim();
